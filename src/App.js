@@ -1,4 +1,9 @@
-function App() {
+import { useReducer } from 'react'
+import { defaultState, reducer } from './stateConfig'
+
+const App = () => {
+  const [state, dispatch] = useReducer(reducer, defaultState)
+
   return (
     <div className="App">
       <header className="App-header">
