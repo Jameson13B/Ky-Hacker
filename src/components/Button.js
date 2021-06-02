@@ -38,8 +38,9 @@ const getStyles = (color) =>
       color: 'slategray',
       '@media(hover: hover) and (pointer: fine)': {
         ':hover': {
-          backgroundColor: 'slategray',
+          backgroundColor: color ?? 'slategray',
           color: 'white',
+          opacity: '.60',
         },
       },
     },
