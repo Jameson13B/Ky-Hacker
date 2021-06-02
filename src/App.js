@@ -20,7 +20,7 @@ const App = () => {
               <Node key={i} />
             ))}
           </div>
-          <GuessesBoard />
+          <GuessesBoard guessNodes={state.guessNodes} />
         </div>
         <div style={styles.two}>
           <Button style={styles.menuButton}>Menu</Button>

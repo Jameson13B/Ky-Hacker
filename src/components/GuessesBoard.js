@@ -2,12 +2,12 @@ import React from 'react'
 
 import { Node } from './Node'
 
-export const GuessesBoard = (props) => {
+export const GuessesBoard = ({ guessNodes }) => {
   const styles = getStyles()
 
   return (
     <div style={styles.board}>
-      {[...Array(40)].map((_, i) => (
+      {guessNodes.map((_, i) => (
         <Node key={i} />
       ))}
     </div>
@@ -22,7 +22,7 @@ const getStyles = () => ({
     height: '90%',
     justifyContent: 'space-evenly',
     width: '100%',
-    flexWrap: 'wrap',
+    flexWrap: 'wrap-reverse',
   },
   hr: {
     borderColor: 'slategray',
