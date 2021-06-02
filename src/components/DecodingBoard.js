@@ -1,17 +1,17 @@
 import React from 'react'
 import { Button } from './Button'
 
-export const DecodingBoard = ({ difficulty }) => {
+export const DecodingBoard = ({ difficulty, setColor }) => {
   const styles = getStyles(difficulty)
 
   return (
     <div style={styles.board}>
-      <Button color="green" onClick={() => alert('green')} style={styles.button} />
-      <Button color="red" onClick={() => alert('red')} style={styles.button} />
-      <Button color="yellow" onClick={() => alert('yellow')} style={styles.button} />
-      <Button color="blue" onClick={() => alert('blue')} style={styles.button} />
+      <Button color="green" onClick={() => setColor('green')} style={styles.button} />
+      <Button color="red" onClick={() => setColor('red')} style={styles.button} />
+      <Button color="yellow" onClick={() => setColor('yellow')} style={styles.button} />
+      <Button color="blue" onClick={() => setColor('blue')} style={styles.button} />
       {difficulty === 'medium' && (
-        <Button color="pink" onClick={() => alert('pink')} style={styles.button} />
+        <Button color="pink" onClick={() => setColor('pink')} style={styles.button} />
       )}
     </div>
   )

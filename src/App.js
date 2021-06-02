@@ -1,5 +1,5 @@
 import { useReducer } from 'react'
-import { defaultState, reducer } from './stateConfig'
+import { ACTIONS, defaultState, reducer } from './stateConfig'
 
 import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
@@ -20,14 +20,17 @@ const App = () => {
               <Node key={i} />
             ))}
           </div>
-          <GuessesBoard guessNodes={state.guessNodes} />
+          <GuessesBoard nodesList={state.nodesList} />
         </div>
         <div style={styles.two}>
           <Button style={styles.menuButton}>Menu</Button>
           <StatusBoard />
         </div>
         <div style={styles.three}>
-          <DecodingBoard difficulty={state.difficulty} />
+          <DecodingBoard
+            difficulty={state.difficulty}
+            setColor={(color) => dispatch({ type: ACTIONS.SET_NODE_COLOR, payload: color })}
+          />
         </div>
       </div>
     </div>

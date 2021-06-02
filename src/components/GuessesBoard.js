@@ -2,13 +2,13 @@ import React from 'react'
 
 import { Node } from './Node'
 
-export const GuessesBoard = ({ guessNodes }) => {
+export const GuessesBoard = ({ nodesList }) => {
   const styles = getStyles()
 
   return (
     <div style={styles.board}>
-      {guessNodes.map((_, i) => (
-        <Node key={i} />
+      {nodesList.map((node, i) => (
+        <Node color={node.color} key={i} />
       ))}
     </div>
   )
