@@ -1,4 +1,6 @@
-export const defaultState = {}
+export const defaultState = {
+  difficulty: 'easy',
+}
 
 export const ACTIONS = {}
 
