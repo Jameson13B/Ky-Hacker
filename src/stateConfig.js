@@ -1,3 +1,7 @@
+import { Mastermind } from './server/mastermind'
+
+export const server = new Mastermind()
+
 // Create a default array with all set to grey
 let defaultArray = Array(40)
 for (let i = 0; i < defaultArray.length; i++) {

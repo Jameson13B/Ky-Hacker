@@ -1,6 +1,5 @@
 import { useEffect, useReducer, useState } from 'react'
-import { ACTIONS, defaultState, reducer } from './stateConfig'
-import { Mastermind } from './server/mastermind'
+import { ACTIONS, defaultState, server, reducer } from './stateConfig'
 
 import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
@@ -9,25 +8,26 @@ import { Menu } from './components/Menu'
 import { Node } from './components/Node'
 import { Button } from './components/Button'
 
-let mm = new Mastermind()
-mm.start()
-
 const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
 
   useEffect(() => {
+    server.start()
+  }, [])
+
+  useEffect(() => {
     if (state.currentGuess.length === 4) {
-      const result = mm.guess(state.currentGuess)
+      const result = server.guess(state.currentGuess)
 
       if (result.winner) {
         alert('Hooray! You win!!!')
-        result.code = mm.getSecretCode()
+        result.code = server.getSecretCode()
         dispatch({ type: ACTIONS.SET_WINNER, payload: result })
       } else if (result.gameOver) {
         alert('Wah! You lost!')
-        result.code = mm.getSecretCode()
+        result.code = server.getSecretCode()
         dispatch({ type: ACTIONS.SET_GAME_OVER, payload: result })
       } else {
         delete result.winner
