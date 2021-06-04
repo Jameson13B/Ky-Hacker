@@ -1,14 +1,16 @@
-import { useReducer } from 'react'
+import { useReducer, useState } from 'react'
 import { ACTIONS, defaultState, reducer } from './stateConfig'
 
 import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
 import { DecodingBoard } from './components/DecodingBoard'
+import { Menu } from './components/Menu'
 import { Node } from './components/Node'
 import { Button } from './components/Button'
 
 const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
+  const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
 
   return (
@@ -23,7 +25,9 @@ const App = () => {
           <GuessesBoard nodesList={state.nodesList} />
         </div>
         <div style={styles.two}>
-          <Button style={styles.menuButton}>Menu</Button>
+          <Button onClick={() => setShowModal(true)} style={styles.menuButton}>
+            Menu
+          </Button>
           <StatusBoard />
         </div>
         <div style={styles.three}>
@@ -32,6 +36,7 @@ const App = () => {
             setColor={(color) => dispatch({ type: ACTIONS.SET_NODE_COLOR, payload: color })}
           />
         </div>
+        {showModal && <Menu onClose={() => setShowModal(false)} />}
       </div>
     </div>
   )
@@ -42,11 +47,14 @@ const getStyles = () => ({
     display: 'flex',
     flexWrap: 'wrap',
     height: '100vh',
+    margin: '0 auto',
+    maxWidth: 345,
     padding: 15,
   },
   one: {
-    width: '77%',
     height: '80%',
+    maxWidth: 265,
+    width: '77%',
   },
   code: {
     alignItems: 'center',
@@ -57,8 +65,9 @@ const getStyles = () => ({
     marginBottom: 10,
   },
   two: {
-    marginLeft: 10,
     height: '80%',
+    marginLeft: 10,
+    maxWidth: 69,
     width: '20%',
   },
   menuButton: {
@@ -70,6 +79,7 @@ const getStyles = () => ({
   },
   three: {
     height: '14%',
+    maxWidth: 345,
     width: '100%',
   },
 })
