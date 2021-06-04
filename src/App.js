@@ -9,30 +9,33 @@ import { Menu } from './components/Menu'
 import { Node } from './components/Node'
 import { Button } from './components/Button'
 
+let mm = new Mastermind()
+mm.start()
+
 const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
-  let mm = new Mastermind()
-  mm.start()
 
   useEffect(() => {
     if (state.currentGuess.length === 4) {
       const result = mm.guess(state.currentGuess)
 
       if (result.winner) {
-        console.log('Hooray! You win!!!')
+        alert('Hooray! You win!!!')
+        result.code = mm.getSecretCode()
+        dispatch({ type: ACTIONS.SET_WINNER, payload: result })
       } else if (result.gameOver) {
-        console.log('Wah! You lost!')
+        alert('Wah! You lost!')
+        result.code = mm.getSecretCode()
+        dispatch({ type: ACTIONS.SET_GAME_OVER, payload: result })
       } else {
-        console.log(result)
-        console.log(
-          `You found ${result.totalExactMatches} exact matches and ${result.totalPartialMatches} partial matches`,
-        )
-        dispatch({})
+        delete result.winner
+        delete result.gameOver
+        dispatch({ type: ACTIONS.SET_STATUS, payload: result })
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state.currentGuess])
 
   return (
@@ -40,9 +43,9 @@ const App = () => {
       <div style={styles.container}>
         <div style={styles.one}>
           <div style={styles.code}>
-            {[...Array(4)].map((_, i) => (
-              <Node key={i} />
-            ))}
+            {state.winner || state.gameOver
+              ? state.currentCode.map((_, i) => <Node color={_.color} key={i} />)
+              : [...Array(4)].map((_, i) => <Node key={i} />)}
           </div>
           <GuessesBoard nodesList={state.nodesList} />
         </div>
@@ -50,7 +53,7 @@ const App = () => {
           <Button onClick={() => setShowModal(true)} style={styles.menuButton}>
             Menu
           </Button>
-          <StatusBoard />
+          <StatusBoard statusList={state.statusList} />
         </div>
         <div style={styles.three}>
           <DecodingBoard
