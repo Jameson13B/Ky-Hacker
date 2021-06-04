@@ -1,5 +1,6 @@
-import { useReducer, useState } from 'react'
+import { useEffect, useReducer, useState } from 'react'
 import { ACTIONS, defaultState, reducer } from './stateConfig'
+import { Mastermind } from './server/mastermind'
 
 import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
@@ -12,6 +13,27 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
+  let mm = new Mastermind()
+  mm.start()
+
+  useEffect(() => {
+    if (state.currentGuess.length === 4) {
+      const result = mm.guess(state.currentGuess)
+
+      if (result.winner) {
+        console.log('Hooray! You win!!!')
+      } else if (result.gameOver) {
+        console.log('Wah! You lost!')
+      } else {
+        console.log(result)
+        console.log(
+          `You found ${result.totalExactMatches} exact matches and ${result.totalPartialMatches} partial matches`,
+        )
+        dispatch({})
+      }
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state.currentGuess])
 
   return (
     <div className="App">
