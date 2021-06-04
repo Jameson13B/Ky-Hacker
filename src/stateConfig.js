@@ -5,10 +5,20 @@ for (let i = 0; i < defaultArray.length; i++) {
 }
 
 export const defaultState = {
+  // List of all nodes for GuessesBoard
   nodesList: defaultArray,
-  difficulty: 'easy',
+  // List of current color/codes for guess(auto resets after 4)
   currentGuess: [],
+  // List of statuses for each set of guesses
+  statusList: [...Array(10)],
+  // List of colors/codes for current code
+  currentCode: [],
+  // Current index for guess on nodesList
   currentNodeIndex: 0,
+  // Current index for statusList update
+  currentStatusIndex: 0,
+  // SETTINGS
+  difficulty: 'easy',
   winner: false,
   gameOver: false,
 }
@@ -21,6 +31,12 @@ export const ACTIONS = {
 }
 
 export const reducer = (state, action) => {
+  const statusList = [...state.statusList]
+  statusList[state.currentStatusIndex] = {
+    exact: action.payload.totalExactMatches,
+    partial: action.payload.totalPartialMatches,
+  }
+
   switch (action.type) {
     case ACTIONS.SET_NODE_COLOR:
       const nodesList = [...state.nodesList]
@@ -36,12 +52,33 @@ export const reducer = (state, action) => {
         currentNodeIndex: state.currentNodeIndex + 1,
       }
     case ACTIONS.SET_STATUS:
-      return { ...state }
+      return {
+        ...state,
+        statusList,
+        currentStatusIndex: state.currentStatusIndex + 1,
+      }
     case ACTIONS.SET_WINNER:
-      return { ...state, winner: true }
+      return {
+        ...state,
+        statusList,
+        winner: true,
+        currentCode: action.payload.code.map((el) => ({ color: ColorMap[el], code: el })),
+      }
     case ACTIONS.SET_GAME_OVER:
-      return { ...state, gameOver: true }
+      return {
+        ...state,
+        statusList,
+        gameOver: true,
+        currentCode: action.payload.code.map((el) => ({ color: ColorMap[el], code: el })),
+      }
     default:
       return state
   }
+}
+
+const ColorMap = {
+  0: 'green',
+  1: 'red',
+  2: 'yellow',
+  3: 'blue',
 }
