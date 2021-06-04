@@ -9,10 +9,15 @@ export const defaultState = {
   difficulty: 'easy',
   currentGuess: [],
   currentNodeIndex: 0,
+  winner: false,
+  gameOver: false,
 }
 
 export const ACTIONS = {
   SET_NODE_COLOR: 'set_node_color',
+  SET_STATUS: 'set_status',
+  SET_WINNER: 'set_winner',
+  SET_GAME_OVER: 'set_game_over',
 }
 
 export const reducer = (state, action) => {
@@ -30,7 +35,12 @@ export const reducer = (state, action) => {
             : [action.payload.code],
         currentNodeIndex: state.currentNodeIndex + 1,
       }
-
+    case ACTIONS.SET_STATUS:
+      return { ...state }
+    case ACTIONS.SET_WINNER:
+      return { ...state, winner: true }
+    case ACTIONS.SET_GAME_OVER:
+      return { ...state, gameOver: true }
     default:
       return state
   }
