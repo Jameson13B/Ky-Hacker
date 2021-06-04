@@ -6,12 +6,32 @@ export const DecodingBoard = ({ difficulty, setColor }) => {
 
   return (
     <div style={styles.board}>
-      <Button color="green" onClick={() => setColor('green')} style={styles.button} />
-      <Button color="red" onClick={() => setColor('red')} style={styles.button} />
-      <Button color="yellow" onClick={() => setColor('yellow')} style={styles.button} />
-      <Button color="blue" onClick={() => setColor('blue')} style={styles.button} />
+      <Button
+        color="green"
+        onClick={() => setColor({ color: 'green', code: 0 })}
+        style={styles.button}
+      />
+      <Button
+        color="red"
+        onClick={() => setColor({ color: 'red', code: 1 })}
+        style={styles.button}
+      />
+      <Button
+        color="yellow"
+        onClick={() => setColor({ color: 'yellow', code: 2 })}
+        style={styles.button}
+      />
+      <Button
+        color="blue"
+        onClick={() => setColor({ color: 'blue', code: 3 })}
+        style={styles.button}
+      />
       {difficulty === 'medium' && (
-        <Button color="pink" onClick={() => setColor('pink')} style={styles.button} />
+        <Button
+          color="pink"
+          onClick={() => setColor({ color: 'pink', code: 4 })}
+          style={styles.button}
+        />
       )}
     </div>
   )

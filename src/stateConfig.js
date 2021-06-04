@@ -1,8 +1,9 @@
+// Create a default array with all set to grey
 let defaultArray = Array(40)
-
 for (let i = 0; i < defaultArray.length; i++) {
   defaultArray[i] = { color: 'slategray' }
 }
+
 export const defaultState = {
   nodesList: defaultArray,
   difficulty: 'easy',
@@ -18,21 +19,16 @@ export const reducer = (state, action) => {
   switch (action.type) {
     case ACTIONS.SET_NODE_COLOR:
       const nodesList = [...state.nodesList]
-      nodesList[state.currentNodeIndex] = { color: action.payload }
-
-      if (state.currentGuess.length === 4) {
-        // TODO: Check currentGuess against code
-        // Provide update to status or update as winner
-      }
+      nodesList[state.currentNodeIndex] = { color: action.payload.color, code: action.payload.code }
 
       return {
         ...state,
         nodesList,
         currentGuess:
           state.currentGuess.length < 4
-            ? [...state.currentGuess, action.payload.color]
-            : [action.payload.color],
-        currentNodeIndex: state.currentNodeIndex++,
+            ? [...state.currentGuess, action.payload.code]
+            : [action.payload.code],
+        currentNodeIndex: state.currentNodeIndex + 1,
       }
 
     default:
