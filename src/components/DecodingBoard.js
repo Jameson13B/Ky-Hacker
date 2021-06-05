@@ -21,12 +21,14 @@ export const DecodingBoard = ({ difficulty, setColor }) => {
         onClick={() => setColor({ color: 'yellow', code: 2 })}
         style={styles.button}
       />
-      <Button
-        color="blue"
-        onClick={() => setColor({ color: 'blue', code: 3 })}
-        style={styles.button}
-      />
-      {difficulty === 'medium' && (
+      {(difficulty === 'medium' || difficulty === 'hard') && (
+        <Button
+          color="blue"
+          onClick={() => setColor({ color: 'blue', code: 3 })}
+          style={styles.button}
+        />
+      )}
+      {difficulty === 'hard' && (
         <Button
           color="pink"
           onClick={() => setColor({ color: 'pink', code: 4 })}
