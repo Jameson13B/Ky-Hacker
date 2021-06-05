@@ -92,7 +92,7 @@ const getStyles = () => ({
   container: {
     display: 'flex',
     flexWrap: 'wrap',
-    height: '100vh',
+    height: '90vh',
     margin: '0 auto',
     maxWidth: 345,
     padding: 15,
