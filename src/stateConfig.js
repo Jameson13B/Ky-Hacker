@@ -32,6 +32,7 @@ export const ACTIONS = {
   SET_STATUS: 'set_status',
   SET_WINNER: 'set_winner',
   SET_GAME_OVER: 'set_game_over',
+  SET_DIFFICULTY: 'set_difficulty',
   RESTART_GAME: 'restart_game',
 }
 
@@ -86,6 +87,11 @@ export const reducer = (state, action) => {
         statusList,
         gameOver: true,
         currentCode: action.payload.code.map((el) => ({ color: ColorMap[el], code: el })),
+      }
+    case ACTIONS.SET_DIFFICULTY:
+      return {
+        ...state,
+        difficulty: action.payload,
       }
     case ACTIONS.RESTART_GAME:
       return {

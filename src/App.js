@@ -63,7 +63,13 @@ const App = () => {
             setColor={(color) => dispatch({ type: ACTIONS.SET_NODE_COLOR, payload: color })}
           />
         </div>
-        {showModal && <Menu onClose={() => setShowModal(false)} />}
+        {showModal && (
+          <Menu
+            difficulty={state.difficulty}
+            changeDifficulty={(dif) => dispatch({ type: ACTIONS.SET_DIFFICULTY, payload: dif })}
+            onClose={() => setShowModal(false)}
+          />
+        )}
         {(state.winner || state.gameOver) && (
           <GlobalMessage
             message={state.winner ? 'Hooray! You win!' : 'Wah! You lost!'}

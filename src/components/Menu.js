@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button } from './Button'
 
-export const Menu = ({ onClose }) => {
+export const Menu = ({ difficulty, changeDifficulty, onClose }) => {
   const styles = getStyles()
 
   return (
@@ -47,9 +47,36 @@ export const Menu = ({ onClose }) => {
       </p>
 
       <div style={styles.buttonGroup}>
-        <Button style={styles.difficultyButton}>Easy</Button>
-        <Button style={styles.difficultyButton}>Medium</Button>
-        <Button style={styles.difficultyButton}>Hard</Button>
+        <Button
+          onClick={() => changeDifficulty('easy')}
+          style={
+            difficulty === 'easy'
+              ? { ...styles.difficultyButton, ...styles.active }
+              : styles.difficultyButton
+          }
+        >
+          Easy
+        </Button>
+        <Button
+          onClick={() => changeDifficulty('medium')}
+          style={
+            difficulty === 'medium'
+              ? { ...styles.difficultyButton, ...styles.active }
+              : styles.difficultyButton
+          }
+        >
+          Medium
+        </Button>
+        <Button
+          onClick={() => changeDifficulty('hard')}
+          style={
+            difficulty === 'hard'
+              ? { ...styles.difficultyButton, ...styles.active }
+              : styles.difficultyButton
+          }
+        >
+          Hard
+        </Button>
       </div>
       <p style={styles.link}>
         Visit Kyler: <a href="https://www.kyleroldroyd.com">www.kyleroldroyd.com</a>
@@ -111,6 +138,9 @@ const getStyles = () => ({
     fontFamily: 'source-code-pro, Menlo, Monaco, Consolas, monospace',
     fontWeight: 700,
     width: '20%',
+  },
+  active: {
+    border: '3px solid slategrey',
   },
   link: {
     fontSize: 15,
