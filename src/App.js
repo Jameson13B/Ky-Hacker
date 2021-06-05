@@ -6,6 +6,7 @@ import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
 import { DecodingBoard } from './components/DecodingBoard'
 import { Menu } from './components/Menu'
+import { GlobalMessage } from './components/GlobalMessage'
 import { Node } from './components/Node'
 import { Button } from './components/Button'
 
@@ -13,11 +14,11 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
-  const server = useRef(new Mastermind()).current
+  let server = useRef(new Mastermind()).current
 
   useEffect(() => {
     server.start()
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -25,11 +26,9 @@ const App = () => {
       const result = server.guess(state.currentGuess)
 
       if (result.winner) {
-        alert('Hooray! You win!!!')
         result.code = server.getSecretCode()
         dispatch({ type: ACTIONS.SET_WINNER, payload: result })
       } else if (result.gameOver) {
-        alert('Wah! You lost!')
         result.code = server.getSecretCode()
         dispatch({ type: ACTIONS.SET_GAME_OVER, payload: result })
       } else {
@@ -65,6 +64,15 @@ const App = () => {
           />
         </div>
         {showModal && <Menu onClose={() => setShowModal(false)} />}
+        {(state.winner || state.gameOver) && (
+          <GlobalMessage
+            message={state.winner ? 'Hooray! You win!' : 'Wah! You lost!'}
+            restart={() => {
+              server.start()
+              dispatch({ type: ACTIONS.RESTART_GAME })
+            }}
+          />
+        )}
       </div>
     </div>
   )

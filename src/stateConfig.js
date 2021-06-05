@@ -32,14 +32,11 @@ export const ACTIONS = {
   SET_STATUS: 'set_status',
   SET_WINNER: 'set_winner',
   SET_GAME_OVER: 'set_game_over',
+  RESTART_GAME: 'restart_game',
 }
 
 export const reducer = (state, action) => {
-  const statusList = [...state.statusList]
-  statusList[state.currentStatusIndex] = {
-    exact: action.payload.totalExactMatches,
-    partial: action.payload.totalPartialMatches,
-  }
+  let statusList = [...state.statusList]
 
   switch (action.type) {
     case ACTIONS.SET_NODE_COLOR:
@@ -56,12 +53,22 @@ export const reducer = (state, action) => {
         currentNodeIndex: state.currentNodeIndex + 1,
       }
     case ACTIONS.SET_STATUS:
+      statusList[state.currentStatusIndex] = {
+        exact: action.payload.totalExactMatches,
+        partial: action.payload.totalPartialMatches,
+      }
+
       return {
         ...state,
         statusList,
         currentStatusIndex: state.currentStatusIndex + 1,
       }
     case ACTIONS.SET_WINNER:
+      statusList[state.currentStatusIndex] = {
+        exact: action.payload.totalExactMatches,
+        partial: action.payload.totalPartialMatches,
+      }
+
       return {
         ...state,
         statusList,
@@ -69,11 +76,21 @@ export const reducer = (state, action) => {
         currentCode: action.payload.code.map((el) => ({ color: ColorMap[el], code: el })),
       }
     case ACTIONS.SET_GAME_OVER:
+      statusList[state.currentStatusIndex] = {
+        exact: action.payload.totalExactMatches,
+        partial: action.payload.totalPartialMatches,
+      }
+
       return {
         ...state,
         statusList,
         gameOver: true,
         currentCode: action.payload.code.map((el) => ({ color: ColorMap[el], code: el })),
+      }
+    case ACTIONS.RESTART_GAME:
+      return {
+        ...defaultState,
+        difficulty: state.difficulty,
       }
     default:
       return state
