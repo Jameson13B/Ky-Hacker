@@ -1,5 +1,6 @@
-import { useEffect, useReducer, useState } from 'react'
-import { ACTIONS, defaultState, server, reducer } from './stateConfig'
+import { useEffect, useReducer, useRef, useState } from 'react'
+import { ACTIONS, defaultState, reducer } from './stateConfig'
+import { Mastermind } from './server/mastermind'
 
 import { GuessesBoard } from './components/GuessesBoard'
 import { StatusBoard } from './components/StatusBoard'
@@ -12,9 +13,11 @@ const App = () => {
   const [state, dispatch] = useReducer(reducer, defaultState)
   const [showModal, setShowModal] = useState(false)
   const styles = getStyles()
+  const server = useRef(new Mastermind()).current
 
   useEffect(() => {
     server.start()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -45,7 +48,7 @@ const App = () => {
           <div style={styles.code}>
             {state.winner || state.gameOver
               ? state.currentCode.map((_, i) => <Node color={_.color} key={i} />)
-              : [...Array(4)].map((_, i) => <Node key={i} />)}
+              : [...Array(4)].map((_, i) => <Node key={i} label={!state.winner && '?'} />)}
           </div>
           <GuessesBoard nodesList={state.nodesList} />
         </div>
