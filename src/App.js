@@ -17,9 +17,9 @@ const App = () => {
   let server = useRef(new Mastermind()).current
 
   useEffect(() => {
-    server.start()
+    server.start(getNodes(state.difficulty))
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [state.difficulty])
 
   useEffect(() => {
     if (state.currentGuess.length === 4) {
@@ -66,7 +66,11 @@ const App = () => {
         {showModal && (
           <Menu
             difficulty={state.difficulty}
-            changeDifficulty={(dif) => dispatch({ type: ACTIONS.SET_DIFFICULTY, payload: dif })}
+            changeDifficulty={(difficulty) => {
+              setShowModal(false)
+              server.start(getNodes(difficulty))
+              dispatch({ type: ACTIONS.SET_DIFFICULTY, payload: difficulty })
+            }}
             onClose={() => setShowModal(false)}
           />
         )}
@@ -74,7 +78,7 @@ const App = () => {
           <GlobalMessage
             message={state.winner ? 'Hooray! You win!' : 'Wah! You lost!'}
             restart={() => {
-              server.start()
+              server.start(getNodes(state.difficulty))
               dispatch({ type: ACTIONS.RESTART_GAME })
             }}
           />
@@ -125,5 +129,15 @@ const getStyles = () => ({
     width: '100%',
   },
 })
+
+const getNodes = (difficulty) => {
+  if (difficulty === 'medium') {
+    return 3
+  } else if (difficulty === 'hard') {
+    return 4
+  } else {
+    return 2
+  }
+}
 
 export default App
