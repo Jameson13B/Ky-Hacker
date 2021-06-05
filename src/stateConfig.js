@@ -90,7 +90,7 @@ export const reducer = (state, action) => {
       }
     case ACTIONS.SET_DIFFICULTY:
       return {
-        ...state,
+        ...defaultState,
         difficulty: action.payload,
       }
     case ACTIONS.RESTART_GAME:
