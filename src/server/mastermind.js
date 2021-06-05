@@ -16,7 +16,7 @@ export const Mastermind = function () {
   const _numberOfPegs = 4
 
   // The maximum zero based value that can be given to a peg
-  const _maxPegValue = 3
+  let _maxPegValue = 3
 
   // Total number of each peg value in the secret code
   let _pegValueTotals = {}
@@ -57,7 +57,9 @@ export const Mastermind = function () {
    *                           for debugging. If no secret code is provided, one
    *                           will be generated.
    */
-  this.start = (secretCode) => {
+  this.start = (pegs = 3, secretCode) => {
+    // Reset the number of colors/pegs possible
+    _maxPegValue = pegs
     // Reset the number of tries left
     _triesLeft = _maxTries
     // Generate the secret code
